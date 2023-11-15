@@ -4,4 +4,9 @@ Also, this is made on the ide NetBeans: <br/>
   -Version: 13 <br/>
   -Java with Ant, Java web, Web Application <br/>
   -Glassfish Server 6.2.1 <br/>
-  -Jakarte EE 9 Web
+  -Jakarta EE 9 Web <br/><br/>
+  
+Libraries: <br/>
+  -JDK 11 <br/>
+  -iText 1.3.1 <br/>
+  -mysql-connector-java 5.1.13
