@@ -20,7 +20,7 @@
     <body>
         <h1>Register</h1>
         
-        <!--Per declarar funcions a jsp hem de començar amb un simbol '!' després del <%- -%> >
+        <!--Per declarar funcions a jsp hem de començar amb un simbol '!' després del <%- -%> -->
         <%!
             boolean pswdMatch(String password, String confirmPassword) {
                 return password.equals(confirmPassword);
