@@ -1,6 +1,6 @@
 <%-- 
-    Document   : login
-    Created on : 15 nov 2023, 13:16:12
+    Document   : index
+    Created on : 16 nov 2023, 15:45:54
     Author     : marks
 --%>
 
@@ -10,7 +10,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="icon" type="image/png" href="images/icons/internationalist.png">
-        <title>Login</title>
+        <title>Menú</title>
         <style>
             html
             {
@@ -41,14 +41,8 @@
         </style>
     </head>
     <body>
-        <h1>Login</h1>
-        <% 
-            if (session.getAttribute("registered") != null)
-            { 
-                session.setAttribute("registered", null);   %>
-                <p>Usuari enregistrat correctament! Pots iniciar sessió:</p>
-        <%  }
-        %>
+        <h1>Pàgina usuaris</h1>
+        
         <hr>
         <a href="index.html">Torna enrere</a>
     </body>
