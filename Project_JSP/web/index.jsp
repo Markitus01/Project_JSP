@@ -41,9 +41,27 @@
         </style>
     </head>
     <body>
-        <h1>Pàgina usuaris</h1>
-        
+        <% 
+            String usu_actual = null;
+            
+            if (session.getAttribute("usuari") != null)
+            {
+                usu_actual = (String) session.getAttribute("usuari");
+            }
+            else
+            {
+                usu_actual = "Invitat";
+                session.setAttribute("usuari", usu_actual);
+            }
+            
+            if ("true".equals(request.getParameter("logout")))
+            {
+                session.setAttribute("usuari", null);
+                response.sendRedirect("index.html");
+            }
+        %>     
+        <h3>Usuari: <%= usu_actual %></h3>
         <hr>
-        <a href="index.html">Torna enrere</a>
+        <a href="<%= request.getRequestURI() %>?logout=true">Torna enrere</a>
     </body>
 </html>

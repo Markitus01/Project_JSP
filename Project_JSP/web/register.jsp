@@ -48,6 +48,22 @@
                 color: red;
             }
             
+            .button {
+                background-color: #079992;
+                color: white;
+                padding: 10px;
+                margin: 5px;
+                border: none;
+                border-radius: 10px;
+                cursor: pointer;
+                width: 15vw;
+                transition: background-color 0.3s ease;
+            }
+
+            .button:hover {
+                background-color: #38ada9;
+            }
+            
             a
             {
                 color: #b8e994;
@@ -123,7 +139,7 @@
             <%          }
                     }
                 } %>
-            <input name="reg" type="submit" value="Register"/>
+            <input class="button" name="reg" type="submit" value="Register"/>
             
             <hr>
             <a href="index.html">Torna enrere</a>
