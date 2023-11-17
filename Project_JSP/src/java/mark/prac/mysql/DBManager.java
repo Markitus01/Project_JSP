@@ -206,6 +206,11 @@ public class DBManager
         }
         return objectes;
     }
+    
+//    public Categoria getCategoriaObjecte(int id_obj)
+//    {
+//        
+//    }
     //-----------------------------------------------------------------PART D'OBJECTES-----------------------------------------------------------------//
     
     

@@ -14,6 +14,8 @@ public class Categoria {
     private int id;
     private String nom;
     
+    public Categoria(){}
+    
     public Categoria(String nom) {
         this.nom = nom;
     }
@@ -24,6 +26,11 @@ public class Categoria {
 
     public String getNom() {
         return nom;
+    }
+    
+    public void setId(int id)
+    {
+        this.id = id;
     }
 
     public void setNom(String nom) {

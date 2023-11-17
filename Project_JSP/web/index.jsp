@@ -77,6 +77,7 @@
                       "<div class='objecte'>"
                     +   "<img src='"+ o.getImg() +"'/>"
                     +   "<p>"+ o.getPreu() +"€ · "+ o.getNom() +"</p>"
+                    +   "<hr>"
                     + "</div>");
                 }
             %>

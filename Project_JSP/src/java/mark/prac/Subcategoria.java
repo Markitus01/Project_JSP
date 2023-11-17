@@ -15,6 +15,8 @@ public class Subcategoria{
     private String nom;
     private Categoria pare;
     
+    public Subcategoria(){}
+    
     public Subcategoria(String nom, Categoria pare) {
         this.nom = nom;
         this.pare = pare;
@@ -30,6 +32,11 @@ public class Subcategoria{
 
     public Categoria getPare() {
         return pare;
+    }
+    
+    public void setId(int id)
+    {
+        this.id = id;
     }
 
     public void setNom(String nom) {
