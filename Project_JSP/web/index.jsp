@@ -4,6 +4,11 @@
     Author     : marks
 --%>
 
+<%@page import="mark.prac.Usuari"%>
+<%@page import="mark.prac.Objecte"%>
+<%@page import="mark.prac.Categoria"%>
+<%@page import="mark.prac.Subcategoria"%>
+<%@page import="mark.prac.mysql.DBManager"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -61,6 +66,21 @@
             }
         %>     
         <h3>Usuari: <%= usu_actual %></h3>
+        <div class="objectes">
+            <%
+                DBManager db = new DBManager();
+                db.connect();
+                
+                for (Objecte o : db.getObjectes())
+                {
+                    out.print(
+                      "<div class='objecte'>"
+                    +   "<img src='"+ o.getImg() +"'/>"
+                    +   "<p>"+ o.getPreu() +"€ · "+ o.getNom() +"</p>"
+                    + "</div>");
+                }
+            %>
+        </div>
         <hr>
         <a href="<%= request.getRequestURI() %>?logout=true">Torna enrere</a>
     </body>

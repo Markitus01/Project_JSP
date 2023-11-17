@@ -156,7 +156,56 @@ public class DBManager
     
     
     //-----------------------------------------------------------------PART D'OBJECTES-----------------------------------------------------------------//
+    public List<Objecte> getObjectes(){
+        PreparedStatement st = null;
+        List<Objecte> objectes = new ArrayList<Objecte>();
+        try{
+            
+            st = con.prepareStatement("select id, usuari, nom, descripcio, categoria, subcategoria, preu, img from objectes;");
+            ResultSet rs = st.executeQuery();
+            while(rs.next()){
+                Objecte o = new Objecte();
+                o.setId(rs.getInt("id"));
+                o.setUsuari(rs.getString("usuari"));
+                o.setNom(rs.getString("nom"));
+                o.setDescripcio(rs.getString("descripcio"));
+                o.setCategoria(rs.getInt("categoria"));
+                o.setSubcategoria(rs.getInt("subcategoria"));
+                o.setPreu(rs.getBigDecimal("preu"));
+                o.setImg(rs.getString("img"));
+                objectes.add(o);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return objectes;
+    }
     
+    public List<Objecte> getObjectesUsuari(String usuari){
+        PreparedStatement st = null;
+        List<Objecte> objectes = new ArrayList<Objecte>();
+        try{
+            
+            st = con.prepareStatement("select id, usuari, nom, descripcio, categoria, subcategoria, preu, img from objectes where usuari = ?;");
+            st.setString(1, usuari);
+            ResultSet rs = st.executeQuery();
+            while(rs.next()){
+                Objecte o = new Objecte();
+                o.setId(rs.getInt("id"));
+                o.setUsuari(rs.getString("usuari"));
+                o.setNom(rs.getString("nom"));
+                o.setDescripcio(rs.getString("descripcio"));
+                o.setCategoria(rs.getInt("categoria"));
+                o.setSubcategoria(rs.getInt("subcategoria"));
+                o.setPreu(rs.getBigDecimal("preu"));
+                o.setImg(rs.getString("img"));
+                objectes.add(o);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return objectes;
+    }
     //-----------------------------------------------------------------PART D'OBJECTES-----------------------------------------------------------------//
     
     

@@ -20,8 +20,11 @@ public class Objecte {
     private int subcategoria;
     private BigDecimal preu;
     private String img;
+    
+    public Objecte(){}
 
-    public Objecte(String usuari, String nom, String descripcio, int categoria, int subcategoria, BigDecimal preu, String img) {
+    public Objecte(int id, String usuari, String nom, String descripcio, int categoria, int subcategoria, BigDecimal preu, String img) {
+        this.id = id;
         this.usuari = usuari;
         this.nom = nom;
         this.descripcio = descripcio;
@@ -29,6 +32,11 @@ public class Objecte {
         this.subcategoria = subcategoria;
         this.preu = preu;
         this.img = img;
+    }
+    
+    public int getId()
+    {
+        return id;
     }
 
     public String getUsuari() {
@@ -57,6 +65,11 @@ public class Objecte {
 
     public String getImg() {
         return img;
+    }
+    
+    public void setId(int id)
+    {
+        this.id = id;
     }
 
     public void setUsuari(String usuari) {
