@@ -42,11 +42,26 @@
                 {
                     /*Fem que el ratoli assenyali cada objecte*/
                     cursor: pointer;
+                    height: 70vh;
                     max-width: 20vw;
                     padding: 12px;
+                    overflow-y: auto;
                     border-radius: 5px;
                     background-color: #4a69bd;
                     transition: background-color 0.3s ease;
+                    margin: 1vw;
+                    
+                    img
+                    {
+                        display: block;
+                        height: auto;
+                        width: 100%;
+                    }
+                    
+                    .desc
+                    {
+                        margin: 0;
+                    }
                 }
                 
                 .objecte:hover
@@ -104,11 +119,11 @@
                     out.print(
                       "<a href='item.jsp?id="+ o.getId() +"'>"
                     +   "<div class='objecte'>"
-                    +       "<img src='"+ o.getImg() +"'/>"
+                    +       "<img src='"+ request.getContextPath() + o.getImg() +"'/>"
                     +       "<p>"+ o.getPreu() +"€ · "+ o.getNom() +"</p>"
                     +       "<hr>"
                     +       "<p>"+ o.getUsuari() +"</p>"
-                    +       "<p>"+ o.getDescripcio() +"</p>"
+                    +       "<p class='desc'>"+ o.getDescripcio() +"</p>"
                     +   "</div>"
                     + "</a>");
                 }

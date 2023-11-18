@@ -40,13 +40,19 @@
             
             .objecte
             {
-                max-height: 60vh;
+                max-height: 70vh;
                 max-width: 30vw;
                 padding: 12px;
                 border-radius: 5px;
-                background-color: #1e3799;
-                transition: background-color 0.3s ease;
+                background-color: #4a69bd;
                 overflow-y: auto;
+                
+                img
+                {
+                    display: block;
+                    height: auto;
+                    width: 100%;
+                }
             }
             
             button {
@@ -101,7 +107,7 @@
                 out.print(
                     "<div class='objecte'>"
                    +    "<h1>"+ item.getNom() +"</h1>"
-                   +    "<img src='"+ item.getImg() +"'/>"
+                   +    "<img src='"+ request.getContextPath() + item.getImg() +"'/>"
                    +    "<h2>"+ item.getPreu() +"€</h2>"
                    +    "<hr>"
                    +    "<p>"+ item.getUsuari() +"</p>"
