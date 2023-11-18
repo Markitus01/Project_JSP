@@ -207,6 +207,32 @@ public class DBManager
         return objectes;
     }
     
+    public Objecte getObjecte(int id){
+        PreparedStatement st = null;
+        Objecte objecte = new Objecte();
+        try{
+            
+            st = con.prepareStatement("select id, usuari, nom, descripcio, categoria, subcategoria, preu, img from objectes where id = ?;");
+            st.setInt(1, id);
+            
+            ResultSet rs = st.executeQuery();
+            if (rs.next()){
+                objecte.setId(rs.getInt("id"));
+                objecte.setUsuari(rs.getString("usuari"));
+                objecte.setNom(rs.getString("nom"));
+                objecte.setDescripcio(rs.getString("descripcio"));
+                objecte.setCategoria(rs.getInt("categoria"));
+                objecte.setSubcategoria(rs.getInt("subcategoria"));
+                objecte.setPreu(rs.getBigDecimal("preu"));
+                objecte.setImg(rs.getString("img"));
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return objecte;
+    }
+    
 //    public Categoria getCategoriaObjecte(int id_obj)
 //    {
 //        

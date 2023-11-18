@@ -126,6 +126,7 @@
                         u.setNick(nick);
                         u.setPswd(password);
                         db.connect();
+
                         if (db.insertUsuari(u))
                         {
                             session.setAttribute("registered", "registrat");

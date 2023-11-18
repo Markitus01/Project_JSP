@@ -24,24 +24,51 @@
             
             body
             {
+                /*Totes les fonts de color blanc*/
                 color: white;
             }
             
-            a
+            .objectes
             {
-                color: #b8e994;
+                display: flex;
+                
+                a
+                {
+                    text-decoration: none;
+                    color: inherit;
+                }
+                
+                .objecte
+                {
+                    /*Fem que el ratoli assenyali cada objecte*/
+                    cursor: pointer;
+                    max-width: 20vw;
+                    padding: 12px;
+                    border-radius: 5px;
+                    background-color: #4a69bd;
+                    transition: background-color 0.3s ease;
+                }
+                
+                .objecte:hover
+                {
+                    background-color: #6a89cc;
+                }
             }
             
-            a:visited {
-                color: #e58e26;
-            }
-
-            a:hover {
-                color: #60a3bc;
-            }
-
-            a:active {
+            .button {
+                background-color: #e58e26;
+                text-decoration: none;
                 color: white;
+                padding: 10px;
+                border: none;
+                border-radius: 10px;
+                cursor: pointer;
+                width: 15vw;
+                transition: background-color 0.3s ease;
+            }
+
+            .button:hover {
+                background-color: #b71540;
             }
         </style>
     </head>
@@ -59,6 +86,7 @@
                 session.setAttribute("usuari", usu_actual);
             }
             
+            // Comparem així per a que no salti el null pointer exception
             if ("true".equals(request.getParameter("logout")))
             {
                 session.setAttribute("usuari", null);
@@ -74,15 +102,19 @@
                 for (Objecte o : db.getObjectes())
                 {
                     out.print(
-                      "<div class='objecte'>"
-                    +   "<img src='"+ o.getImg() +"'/>"
-                    +   "<p>"+ o.getPreu() +"€ · "+ o.getNom() +"</p>"
-                    +   "<hr>"
-                    + "</div>");
+                      "<a href='item.jsp?id="+ o.getId() +"'>"
+                    +   "<div class='objecte'>"
+                    +       "<img src='"+ o.getImg() +"'/>"
+                    +       "<p>"+ o.getPreu() +"€ · "+ o.getNom() +"</p>"
+                    +       "<hr>"
+                    +       "<p>"+ o.getUsuari() +"</p>"
+                    +       "<p>"+ o.getDescripcio() +"</p>"
+                    +   "</div>"
+                    + "</a>");
                 }
             %>
         </div>
         <hr>
-        <a href="<%= request.getRequestURI() %>?logout=true">Torna enrere</a>
+        <a class="button" href="<%= request.getRequestURI() %>?logout=true">Logout</a>
     </body>
 </html>
