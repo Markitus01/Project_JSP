@@ -10,14 +10,15 @@ import java.util.Objects;
  *
  * @author marks
  */
-public class Subcategoria{
+public class Subcategoria
+{
     private int id;
     private String nom;
-    private Categoria pare;
+    private int pare;
     
     public Subcategoria(){}
     
-    public Subcategoria(String nom, Categoria pare) {
+    public Subcategoria(String nom, int pare) {
         this.nom = nom;
         this.pare = pare;
     }
@@ -30,7 +31,7 @@ public class Subcategoria{
         return nom;
     }
 
-    public Categoria getPare() {
+    public int getPare() {
         return pare;
     }
     
@@ -43,16 +44,16 @@ public class Subcategoria{
         this.nom = nom;
     }
 
-    public void setPare(Categoria pare) {
+    public void setPare(int pare) {
         this.pare = pare;
     }
-
+    
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 89 * hash + this.id;
-        hash = 89 * hash + Objects.hashCode(this.nom);
-        hash = 89 * hash + Objects.hashCode(this.pare);
+        int hash = 3;
+        hash = 71 * hash + this.id;
+        hash = 71 * hash + Objects.hashCode(this.nom);
+        hash = 71 * hash + this.pare;
         return hash;
     }
 
@@ -71,9 +72,9 @@ public class Subcategoria{
         if (this.id != other.id) {
             return false;
         }
-        if (!Objects.equals(this.nom, other.nom)) {
+        if (this.pare != other.pare) {
             return false;
         }
-        return Objects.equals(this.pare, other.pare);
-    } 
+        return Objects.equals(this.nom, other.nom);
+    }
 }

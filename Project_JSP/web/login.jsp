@@ -67,7 +67,7 @@
     </head>
     <body>
         <h1>Login</h1>
-        <form>
+        <form action="login.jsp" method="post">
             <% 
                 if (session.getAttribute("registered") != null)
                 { 
@@ -86,7 +86,7 @@
                     String password = request.getParameter("pswd");
                     Usuari usu_bd = db.getUsuari(mail);
                     
-                    if (usu_bd != null)
+                    if (usu_bd != null)wadasda
                     {
                         if (usu_bd.getPswd().equals(password))
                         {
@@ -110,6 +110,7 @@
             <input class="button" name="log" type="submit" value="Login"/>
             
             <hr>
+            
             <a href="index.html">Torna enrere</a>
         </form>
     </body>

@@ -41,7 +41,7 @@
             .objecte
             {
                 max-height: 70vh;
-                max-width: 30vw;
+                max-width: 22vw;
                 padding: 12px;
                 border-radius: 5px;
                 background-color: #4a69bd;

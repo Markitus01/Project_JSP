@@ -243,13 +243,90 @@ public class DBManager
     
     
     //-----------------------------------------------------------------PART DE CATEGORIES-----------------------------------------------------------------//
+    public List<Categoria> getCategories(){
+        PreparedStatement st = null;
+        List<Categoria> categories = new ArrayList<Categoria>();
+        try{
+            
+            st = con.prepareStatement("select id, nom_cat from categories;");
+            ResultSet rs = st.executeQuery();
+            while(rs.next()){
+                Categoria cat = new Categoria();
+                cat.setId(rs.getInt("id"));
+                cat.setNom(rs.getString("nom_cat"));
+                categories.add(cat);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return categories;
+    }
     
+    public Categoria getCategoria(int id){
+        PreparedStatement st = null;
+        Categoria categoria = new Categoria();
+        try{
+            
+            st = con.prepareStatement("select id, nom_cat from categories where id = ?;");
+            st.setInt(1, id);
+            
+            ResultSet rs = st.executeQuery();
+            if(rs.next()){
+                categoria.setId(rs.getInt("id"));
+                categoria.setNom(rs.getString("nom_cat"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return categoria;
+    }
     //-----------------------------------------------------------------PART DE CATEGORIES-----------------------------------------------------------------//
     
     
     
     
     //-----------------------------------------------------------------PART DE SUBCATEGORIES-----------------------------------------------------------------//
+    public List<Subcategoria> getSubcategories(int id){
+        PreparedStatement st = null;
+        List<Subcategoria> subcategories = new ArrayList<Subcategoria>();
+        try{
+            
+            st = con.prepareStatement("select id, nom_subcat, categoria from subcategories where categoria = ?;");
+            st.setInt(1, id);
+            
+            ResultSet rs = st.executeQuery();
+            while(rs.next()){
+                Subcategoria subcat = new Subcategoria();
+                subcat.setId(rs.getInt("id"));
+                subcat.setNom(rs.getString("nom_subcat"));
+                subcat.setPare(rs.getInt("categoria"));
+                subcategories.add(subcat);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return subcategories;
+    }
     
+    public Subcategoria getSubcategoria(int id){
+        PreparedStatement st = null;
+        Subcategoria subcategoria = new Subcategoria();
+        try{
+            
+            st = con.prepareStatement("select id, nom_subcat, categoria from categories where id = ?;");
+            st.setInt(1, id);
+            
+            ResultSet rs = st.executeQuery();
+            if(rs.next()){
+                subcategoria.setId(rs.getInt("id"));
+                subcategoria.setNom(rs.getString("nom_subcat"));
+                subcategoria.setPare(rs.getInt("categoria"));
+                
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return subcategoria;
+    }
     //-----------------------------------------------------------------PART DE SUBCATEGORIES-----------------------------------------------------------------//
 }

@@ -30,8 +30,12 @@
             
             .objectes
             {
+                height: 85vh;
                 display: flex;
-                justify-content: space-between;
+                justify-content: space-around;
+                flex-wrap: wrap;
+                align-content: space-between;
+                overflow-y: auto;
                 
                 a
                 {
@@ -43,8 +47,8 @@
                 {
                     /*Fem que el ratoli assenyali cada objecte*/
                     cursor: pointer;
-                    height: 70vh;
-                    width: 20vw;
+                    height: 40vh;
+                    width: 14vw;
                     padding: 12px;
                     overflow-y: auto;
                     border-radius: 5px;
@@ -90,46 +94,96 @@
     <body>
         <% 
             String usu_actual = null;
+            boolean loguejat = false;
             
-            if (session.getAttribute("usuari") != null)
-            {
-                usu_actual = (String) session.getAttribute("usuari");
-            }
-            else
-            {
-                usu_actual = "Invitat";
-                session.setAttribute("usuari", usu_actual);
-            }
-            
-            // Comparem així per a que no salti el null pointer exception
-            if ("true".equals(request.getParameter("logout")))
+            if (request.getParameter("logout") != null)
             {
                 session.setAttribute("usuari", null);
                 response.sendRedirect("index.html");
             }
-        %>     
-        <h3>Usuari: <%= usu_actual %></h3>
-        <div class="objectes">
-            <%
-                DBManager db = new DBManager();
-                db.connect();
-                
-                for (Objecte o : db.getObjectes())
-                {
-                    out.print(
-                      "<a href='item.jsp?id="+ o.getId() +"'>"
-                    +   "<div class='objecte'>"
-                    +       "<img src='"+ request.getContextPath() + o.getImg() +"'/>"
-                    +       "<p>"+ o.getPreu() +"€ · "+ o.getNom() +"</p>"
-                    +       "<hr>"
-                    +       "<p>"+ o.getUsuari() +"</p>"
-                    +       "<p class='desc'>"+ o.getDescripcio() +"</p>"
-                    +   "</div>"
-                    + "</a>");
-                }
-            %>
-        </div>
-        <hr>
-        <a class="button" href="<%= request.getRequestURI() %>?logout=true">Logout</a>
+            
+            //Si ha entrat via login creem una booleana de logejat a true
+            if (session.getAttribute("usuari") != null)
+            {
+                usu_actual = (String) session.getAttribute("usuari");
+                loguejat = true;
+            }
+            else if ("true".equals(request.getParameter("invitat")) || loguejat == false) //Si ha entrat com invitat 
+            {
+                usu_actual = "Invitat";
+                session.setAttribute("usuari", usu_actual);
+            }
+            else
+            {
+                response.sendRedirect("index.html");
+            }
+        %>    
+        <form action="index.jsp" method="post">
+            <h3>Usuari: <%= usu_actual %></h3> <br>
+            Categoria: 
+            <select class="categoria" name="categoria" onchange="this.form.submit()">
+                <option value="all">*</option>
+                <%
+                    DBManager db = new DBManager();
+                    db.connect();
+                    //Obtenim la categoría seleccionada
+                    String catSelec = request.getParameter("categoria");
+
+                    for (Categoria cat : db.getCategories())
+                    {
+                        String selected = "";
+                        //Afegim selected a la categoria seleccionada per a que es mantingui seleccionada després del onchange
+                        if (catSelec != null && catSelec.equals(String.valueOf(cat.getId())))
+                        {
+                            selected = "selected";
+                        }
+                        out.print("<option value='"+ cat.getId() +"' "+ selected +">"+ cat.getNom() +"</option>");
+                    }
+                    
+                %>
+            </select>
+            Subcategoria:
+            <select class="subcategoria" name="subcategoria" onchange="this.form.submit()">
+                <option value="all">*</option>
+                <%
+                    int categoria = Integer.parseInt(request.getParameter("categoria"));
+                    //Obtenim la subcategoría seleccionada
+                    String subSelec = request.getParameter("subcategoria");
+                    
+                    for (Subcategoria sub : db.getSubcategories(categoria))
+                    {
+                        String selected = "";
+                        //Afegim selected a la subcategoria seleccionada per a que es mantingui seleccionada després del onchange
+                        if (subSelec != null && subSelec.equals(String.valueOf(sub.getId())))
+                        {
+                            selected = "selected";
+                        }
+                        out.print("<option value='"+ sub.getId() +"' "+ selected +">"+ sub.getNom() +"</option>");
+                    }
+                %>
+            </select>
+            
+            <div class="objectes">
+                <%
+                    for (Objecte o : db.getObjectes())
+                    {
+                        out.print(
+                          "<a href='item.jsp?id="+ o.getId() +"'>"
+                        +   "<div class='objecte'>"
+                        +       "<img src='"+ request.getContextPath() + o.getImg() +"'/>"
+                        +       "<p>"+ o.getPreu() +"€ · "+ o.getNom() +"</p>"
+                        +       "<hr>"
+                        +       "<p>"+ o.getUsuari() +"</p>"
+                        +       "<p class='desc'>"+ o.getDescripcio() +"</p>"
+                        +   "</div>"
+                        + "</a>");
+                    }
+                    
+                    db.close();
+                %>
+            </div>
+            <hr>
+            <input type="submit" name="logout" value="Logout" class="button" />
+        </form>
     </body>
 </html>
