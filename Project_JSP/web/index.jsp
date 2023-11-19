@@ -31,6 +31,7 @@
             .objectes
             {
                 display: flex;
+                justify-content: space-between;
                 
                 a
                 {
@@ -43,13 +44,12 @@
                     /*Fem que el ratoli assenyali cada objecte*/
                     cursor: pointer;
                     height: 70vh;
-                    max-width: 20vw;
+                    width: 20vw;
                     padding: 12px;
                     overflow-y: auto;
                     border-radius: 5px;
                     background-color: #4a69bd;
                     transition: background-color 0.3s ease;
-                    margin: 1vw;
                     
                     img
                     {
