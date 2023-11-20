@@ -8,5 +8,4 @@ Also, this is made on the ide NetBeans: <br/>
   
 Libraries: <br/>
   -JDK 11 <br/>
-  -iText 1.3.1 <br/>
   -mysql-connector-java 5.1.13
