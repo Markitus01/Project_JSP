@@ -29,9 +29,24 @@
                 color: white;
             }
             
+            header
+            {
+                display: flex;
+                justify-content: space-around;
+            }
+            
+            select
+            {
+                cursor: pointer;
+            }
+            
             .objectes
             {
                 height: 80vh;
+                margin-top: 1vh;
+                padding: 5px;
+                border: 3px solid #60a3bc;
+                border-radius: 15px;
                 display: flex;
                 justify-content: space-around;
                 flex-wrap: wrap;
@@ -53,6 +68,7 @@
                     padding: 12px;
                     margin-top: 1vh;
                     overflow-y: auto;
+                    border: 1px solid black;
                     border-radius: 5px;
                     background-color: #4a69bd;
                     transition: background-color 0.3s ease;
@@ -91,13 +107,39 @@
             .button:hover {
                 background-color: #b71540;
             }
+            
+            .perfil
+            {
+                background-color: #78e08f;
+                text-decoration: none;
+                color: white;
+                padding: 10px;
+                border: none;
+                border-radius: 10px;
+                cursor: pointer;
+                width: 15vw;
+                transition: background-color 0.3s ease;
+            }
+            
+            .perfil:hover
+            {
+                background-color: #b8e994;
+            }
         </style>
     </head>
     <body>
         <% 
+            DBManager db = new DBManager();
             String usu_actual = null;
-            boolean loguejat = false;
             
+            //Si prem el botó de perfil
+            if (request.getParameter("perfil") != null)
+            {
+                response.sendRedirect("perfil.jsp");
+                return;
+            }
+            
+            //Si prem el botó de logout
             if (request.getParameter("logout") != null)
             {
                 //Eliminem la sessió i redirigim
@@ -106,30 +148,40 @@
                 return;
             }
             
-            //Si ha entrat via login creem una booleana de logejat a true
+            //Si ha entrat via login
             if (session.getAttribute("usuari") != null)
             {
                 usu_actual = (String) session.getAttribute("usuari");
-                loguejat = true;
+                db.connect();
+                
+                Usuari user = db.getUsuari(usu_actual);
+                usu_actual = user.getNick();     
             }
             else if ("true".equals(request.getParameter("invitat"))) //Si ha entrat com invitat 
             {
                 usu_actual = "Invitat";
                 session.setAttribute("usuari", usu_actual);
             }
-            else
+            else //Si intenten colar-se per url reenviem a la zona inicial
             {
                 response.sendRedirect("index.html");
                 return;
             }
         %>    
         <form action="index.jsp" method="post">
-            <h3>Usuari: <%= usu_actual %></h3> <br>
+            <header>
+                <h3>Usuari: <%= usu_actual %></h3>
+                <%  if (!usu_actual.equals("Invitat"))
+                    {%>
+                    <input class="perfil" type="submit" name="perfil" value="Perfil" />
+                <%  }%>
+            </header>
+            
+            <br>
             Categoria: 
             <select class="categoria" name="categoria" onchange="this.form.submit()">
                 <option value="totes">*</option>
                 <%
-                    DBManager db = new DBManager();
                     db.connect();
                     //Obtenim la categoría seleccionada
                     String catSelec = request.getParameter("categoria");

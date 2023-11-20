@@ -86,12 +86,12 @@
                     String password = request.getParameter("pswd");
                     Usuari usu_bd = db.getUsuari(mail);
                     
-                    if (usu_bd != null)wadasda
+                    if (usu_bd != null)
                     {
                         if (usu_bd.getPswd().equals(password))
                         {
                             db.close();
-                            session.setAttribute("usuari", usu_bd.getNick());
+                            session.setAttribute("usuari", usu_bd.getMail());
                             response.sendRedirect("index.jsp");
                         }
                         else
