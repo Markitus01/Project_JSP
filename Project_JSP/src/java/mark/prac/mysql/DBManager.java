@@ -289,10 +289,64 @@ public class DBManager
         return objecte;
     }
     
-//    public Categoria getCategoriaObjecte(int id_obj)
-//    {
-//        
-//    }
+    public boolean insertObjecte(Objecte o){
+        try {
+            String query = "insert into objectes (usuari, nom, descripcio, categoria, subcategoria, preu, img) values (?,?,?,?,?,?,?)";
+            PreparedStatement preparedStmt;
+            preparedStmt = con.prepareStatement(query);
+            preparedStmt.setString(1, o.getUsuari());
+            preparedStmt.setString(2, o.getNom());
+            preparedStmt.setString(3, o.getDescripcio());
+            preparedStmt.setInt(4, o.getCategoria());
+            preparedStmt.setInt(5, o.getSubcategoria());
+            preparedStmt.setBigDecimal(6, o.getPreu());
+            preparedStmt.setString(7, o.getImg());
+            preparedStmt.execute();
+            
+            return true;
+        } catch (SQLException ex) {
+            return false;
+        }
+    }
+    
+    public boolean updateObjecte(Objecte o){
+        try {
+            
+            String query = "update objectes set nom=?, descripcio=?, categoria=?, subcategoria=?, preu=?, img=? where id = ?";
+            PreparedStatement preparedStmt;
+            preparedStmt = con.prepareStatement(query);
+
+            preparedStmt.setString(1, o.getNom());
+            preparedStmt.setString(2, o.getDescripcio());
+            preparedStmt.setInt(3, o.getCategoria());
+            preparedStmt.setInt(4, o.getSubcategoria());
+            preparedStmt.setBigDecimal(5, o.getPreu());
+            preparedStmt.setString(6, o.getImg());
+            
+            preparedStmt.setInt(7, o.getId());
+
+            preparedStmt.execute();
+            
+            return true;
+        } catch (SQLException ex) {
+            return false;
+        }
+    }
+    
+    public boolean deleteObjecte(int id){
+        try {
+            String query = "delete from objectes where id=?";
+            PreparedStatement preparedStmt;
+            preparedStmt = con.prepareStatement(query);
+            preparedStmt.setInt(1, id);
+            
+            preparedStmt.execute();
+            
+            return true;
+        } catch (SQLException ex) {
+            return false;
+        }        
+    }
     //-----------------------------------------------------------------PART D'OBJECTES-----------------------------------------------------------------//
     
     
