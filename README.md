@@ -1,5 +1,5 @@
 # Project_JSP
-JSP project for server web developing <br/>
+JSP project for server web developing where i'm making a wallapop lookalike web <br/>
 Also, this is made on the ide NetBeans: <br/>
   -Version: 13 <br/>
   -Java with Ant, Java web, Web Application <br/>
