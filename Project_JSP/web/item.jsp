@@ -86,7 +86,14 @@
                 return;
             }
             
-            if (session.getAttribute("usuari") != null)
+            //Si vol tornar al menu
+            if (request.getParameter("menu") != null)
+            {
+                response.sendRedirect("index.jsp");
+                return;
+            }
+            
+            if (!session.getAttribute("usuari").equals("Invitat"))
             {
                 usu_actual = (String) session.getAttribute("usuari");
 
@@ -108,8 +115,18 @@
             }
         %>
         <form action="item.jsp?id=<%=request.getParameter("id")%>" method="post">
-        <h3>Usuari: <%= usu_actual %> · <input class="button" type="submit" name="enrere" value="Tornar al perfil"/></h3>
+        <h3>Usuari: <%= usu_actual %> ·    
         <%
+            if (!usu_actual.equals("Invitat"))
+            {%>
+                <input class="button" type="submit" name="enrere" value="Tornar al perfil"/> · 
+                <input class="button" type="submit" name="menu" value="Tornar al menu"/></h3>
+        <%  }
+            else
+            {%>
+                <input class="button" type="submit" name="menu" value="Tornar al menu"/></h3>
+        <%  }
+
             //Comprovem que l'objecte existeix, si no fora
             if (request.getParameter("id") != null && request.getParameter("id") != "")
             {
@@ -155,7 +172,7 @@
                 else
                 {
                     //Si el que veu l'item es el seu propietari:
-                    if (user.getMail().equals(item.getUsuari()))
+                    if (user != null && user.getMail().equals(item.getUsuari()))
                     {
                         out.print(
                             "<div class='objecte'>"
@@ -170,8 +187,9 @@
                            +"</div>"
                         );
                     }
-                    else
+                    else //Si el que veu l'objecte no es el propietari
                     {
+                        Usuari propietari = db.getUsuari(item.getUsuari());
                         out.print(
                             "<div class='objecte'>"
                            +    "<h1>"+ item.getNom() +"</h1>"
@@ -179,7 +197,7 @@
                            +    "<h2>"+ item.getPreu() +"€</h2>"
                            +    "<h3> </h3>" 
                            +    "<hr>"
-                           +    "<p>"+ user.getNick() +"</p>"
+                           +    "<p>"+ propietari.getNick() +"</p>"
                            +    "<p>"+ item.getDescripcio() +"</p>"
                            +    "<p> <input type='submit' name='oferta' value='Oferta'/> <input type='submit' name='coment' value='Comentar'/></p>"
                            +"</div>"

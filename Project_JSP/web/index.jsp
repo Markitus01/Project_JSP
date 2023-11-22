@@ -64,7 +64,7 @@
                     /*Fem que el ratoli assenyali cada objecte*/
                     cursor: pointer;
                     height: 40vh;
-                    width: 14vw;
+                    width: 16vw;
                     padding: 12px;
                     margin-top: 1vh;
                     overflow-y: auto;
@@ -149,7 +149,7 @@
             }
             
             //Si ha entrat via login
-            if (session.getAttribute("usuari") != null)
+            if (session.getAttribute("usuari") != null && !session.getAttribute("usuari").equals("Invitat"))
             {
                 usu_actual = (String) session.getAttribute("usuari");
                 db.connect();
@@ -157,7 +157,7 @@
                 Usuari user = db.getUsuari(usu_actual);
                 usu_actual = user.getNick();     
             }
-            else if ("true".equals(request.getParameter("invitat"))) //Si ha entrat com invitat 
+            else if ("true".equals(request.getParameter("invitat")) || session.getAttribute("usuari") != null) //Si ha entrat com invitat 
             {
                 usu_actual = "Invitat";
                 session.setAttribute("usuari", usu_actual);
@@ -249,13 +249,15 @@
                     
                     for (Objecte o : objectes)
                     {
+                        Usuari propietari = db.getUsuari(o.getUsuari());
+                        
                         out.print(
                           "<a href='item.jsp?id="+ o.getId() +"'>"
                         +   "<div class='objecte'>"
                         +       "<img src='"+ request.getContextPath() + o.getImg() +"'/>"
                         +       "<p>"+ o.getPreu() +"€ · "+ o.getNom() +"</p>"
                         +       "<hr>"
-                        +       "<p>"+ o.getUsuari() +"</p>"
+                        +       "<p>"+ propietari.getNick() +"</p>"
                         +       "<p class='desc'>"+ o.getDescripcio() +"</p>"
                         +   "</div>"
                         + "</a>");
