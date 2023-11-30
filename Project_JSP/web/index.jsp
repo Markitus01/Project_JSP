@@ -196,7 +196,6 @@
                         }
                         out.print("<option value='"+ cat.getId() +"' "+ selected +">"+ cat.getNom() +"</option>");
                     }
-                    
                 %>
             </select>
             

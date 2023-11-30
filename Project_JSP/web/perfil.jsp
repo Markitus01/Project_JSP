@@ -160,9 +160,36 @@
             
             Usuari user = db.getUsuari(usu_actual);
             usu_actual = user.getNick();
+            
+            //Quan inserti nou item
+            if (request.getParameter("insertar") != null)
+            {
+                Objecte ins_obj = new Objecte();
+                FileItem imatge = null;
+
+                // Obtenim l'imatge
+                Part imgPart = request.getPart("img");
+
+                // Treiem el nom de l'arxiu
+                String fileName = Paths.get(imgPart.getSubmittedFileName()).getFileName().toString();
+
+                // Guardar el l'arxiu a images
+                String uploadPath = "/images/" + fileName;
+                imgPart.write(uploadPath);
+
+                ins_obj.setUsuari(user.getMail());
+                ins_obj.setImg(uploadPath);
+                ins_obj.setNom(request.getParameter("nom"));
+                ins_obj.setDescripcio(request.getParameter("desc"));
+                ins_obj.setCategoria(Integer.parseInt(request.getParameter("categoria")));
+                ins_obj.setSubcategoria(Integer.parseInt(request.getParameter("subcategoria")));
+                ins_obj.setPreu(new BigDecimal(request.getParameter("preu")));
+
+                db.insertObjecte(ins_obj);
+            }
         %>
         
-        <form action="perfil.jsp" method="post">
+        <form action="perfil.jsp" method="post" enctype="multipart/form-data">
             <header>
                 <%  if (request.getParameter("canvi_nick") != null)
                     { %>
@@ -180,54 +207,33 @@
             <h2>Afegir Objecte</h2>
             <div class="cat_obj">
                 <p>Categoria · Subcategoria: 
-                <select class="categoria" name="categoria" onchange="this.form.submit()">
+                <select class="categoria" name="categoria">
+                    <option value="cap">*</option>
                     <%
                         db.connect();
 
                         for (Categoria cat : db.getCategories())
                         {
-                            if (request.getParameter("categoria") != null && Integer.parseInt(request.getParameter("categoria")) == cat.getId())
-                            {
-                                out.print("<option value='" + cat.getId() + "' selected>" + cat.getNom() + "</option>");
-                            }
-                            else
-                            {
-                                out.print("<option value='" + cat.getId() + "'>" + cat.getNom() + "</option>");
-                            }   
+                            out.print("<option value='" + cat.getId() + "'>" + cat.getNom() + "</option>");
                         }
                     %>
                 </select> ·
-                
-                <%  //Només mostrem subcategoría si hi ha escollida una concreta
-                    if (request.getParameter("categoria") != null && !("totes").equals(request.getParameter("categoria")))
-                    {%>
-                        <select class="subcategoria" name="subcategoria" onchange="this.form.submit()">
-                            <%
-                                if (request.getParameter("categoria") != null)
-                                {
-                                    int categoria = Integer.parseInt(request.getParameter("categoria"));
+                    <select class="subcategoria" name="subcategoria">
+                        <option value="cap">*</option>
+                        <%
+                            if (request.getParameter("categoria") != null)
+                            {
+                                int categoria = Integer.parseInt(request.getParameter("categoria"));
 
-                                    for (Subcategoria sub : db.getSubcategories(categoria))
-                                    {
-                                        if (request.getParameter("subcategoria") != null && Integer.parseInt(request.getParameter("subcategoria")) == sub.getId())
-                                        {
-                                            out.print("<option value='" + sub.getId() + "' selected>" + sub.getNom() + "</option>");
-                                        }
-                                        else
-                                        {
-                                            out.print("<option value='" + sub.getId() + "'>" + sub.getNom() + "</option>");
-                                        }
-                                    }
+                                for (Subcategoria sub : db.getSubcategories(categoria))
+                                {
+                                    out.print("<option value='" + sub.getId() + "'>" + sub.getNom() + "</option>"); 
                                 }
-                            %>
-                        </select>
-                <%  }
-                %>
+                            }
+                        %>
+                    </select>
                 </p>
             </div>
-        </form>
-        
-        <form action="perfil.jsp" method="post" enctype="multipart/form-data">
             
             <div class="nou_obj">
                 <p>Imatge: <input type="file" name="img"/></p> 
@@ -241,34 +247,6 @@
             <h2>Inventari:</h2>
             <div class="objectes">
                 <%
-                    String puto = request.getParameter("insertar");
-                    //Quan inserti nou item
-                    if (request.getParameter("insertar") != null)
-                    {
-                        Objecte ins_obj = new Objecte();
-                        FileItem imatge = null;
-
-                        // Obtenim l'imatge
-                        Part imgPart = request.getPart("img");
-
-                        // Treiem el nom de l'arxiu
-                        String fileName = Paths.get(imgPart.getSubmittedFileName()).getFileName().toString();
-
-                        // Guardar el l'arxiu a images
-                        String uploadPath = "/images/" + fileName;
-                        imgPart.write(uploadPath);
-
-                        ins_obj.setUsuari(user.getMail());
-                        ins_obj.setImg(uploadPath);
-                        ins_obj.setNom(request.getParameter("nom"));
-                        ins_obj.setDescripcio(request.getParameter("desc"));
-                        ins_obj.setCategoria(Integer.parseInt(request.getParameter("categoria")));
-                        ins_obj.setSubcategoria(Integer.parseInt(request.getParameter("subcategoria")));
-                        ins_obj.setPreu(new BigDecimal(request.getParameter("preu")));
-
-                        db.insertObjecte(ins_obj);
-                    }
-                    
                     //Carreguem els objectes de l'usuari
                     for (Objecte o : db.getObjectesUsuari(user.getMail()))
                     {
